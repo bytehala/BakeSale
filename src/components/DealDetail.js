@@ -1,8 +1,9 @@
-import React from 'react';
-import {Text, View, Image, StyleSheet} from 'react-native';
-import PropTypes from 'prop-types';
+import React from "react";
+import { Text, View, Image, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
 
-import {priceDisplay} from '../util';
+import { priceDisplay } from "../util";
+import ajax from "../ajax";
 
 class DealItem extends React.Component {
   static propTypes = {
@@ -13,15 +14,18 @@ class DealItem extends React.Component {
     deal: this.props.initialDealData,
   };
 
+  async componentDidMount() {
+    const fullDeal = await ajax.fetchDealDetail(this.state.deal.key);
+    this.setState({ deal: fullDeal });
+    console.log(fullDeal);
+  }
+
   render() {
     const { deal } = this.state;
 
     return (
       <View style={styles.deal}>
-        <Text>Detail:</Text>
-        <Image
-          source={{ uri: deal.media[0]}}
-          style={styles.image} />
+        <Image source={{ uri: deal.media[0] }} style={styles.image} />
         <View style={styles.info}>
           <Text style={styles.title}>{deal.title}</Text>
           <View style={styles.footer}>
@@ -29,8 +33,18 @@ class DealItem extends React.Component {
             <Text style={styles.price}>{priceDisplay(deal.price)}</Text>
           </View>
         </View>
+
+        {deal.user && (
+          <View>
+            <Image source={{ uri: deal.user.avatar }} style={styles.avatar} />
+            <Text>{deal.user.name}</Text>
+          </View>
+        )}
+        <View>
+          <Text>{deal.description}</Text>
+        </View>
       </View>
-    )
+    );
   }
 }
 
@@ -43,35 +57,40 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: '100%',
+    width: "100%",
     height: 150,
   },
 
   title: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
   },
 
   info: {
     padding: 10,
-    borderColor: '#bbb',
+    borderColor: "#bbb",
     borderWidth: 1,
     borderTopWidth: 0,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
 
   footer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end'
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
 
   cause: {
-    flex: 2
+    flex: 2,
   },
 
   price: {
     flex: 1,
-    textAlign: 'right'
+    textAlign: "right",
+  },
+
+  avatar: {
+    width: 60,
+    height: 60,
   },
 });
