@@ -6,11 +6,15 @@ import {priceDisplay} from '../util';
 
 class DealItem extends React.Component {
   static propTypes = {
-    deal: PropTypes.object.isRequired,
+    initialDealData: PropTypes.object.isRequired,
+  };
+
+  state = {
+    deal: this.props.initialDealData,
   };
 
   render() {
-    const { deal } = this.props;
+    const { deal } = this.state;
 
     return (
       <View style={styles.deal}>
