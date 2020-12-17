@@ -2,17 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { View, Text, StyleSheet, FlatList } from "react-native";
+import DealItem from './DealItem';
 
 class DealList extends React.Component {
   static propTypes = {
     deals: PropTypes.array.isRequired,
   };
+
   render() {
     return (
       <View style={styles.list}>
         <FlatList
           data={this.props.deals}
-          renderItem={({ item }) => <Text>{item.title}</Text>}
+          renderItem={({ item }) => <DealItem deal={item} />}
         />
       </View>
     );
