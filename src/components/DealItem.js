@@ -2,6 +2,8 @@ import React from 'react';
 import {Text, View, Image, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 
+import {priceDisplay} from '../util';
+
 class DealItem extends React.Component {
   static propTypes = {
     deal: PropTypes.object.isRequired,
@@ -17,7 +19,7 @@ class DealItem extends React.Component {
           style={styles.image} />
         <View>
           <Text>{deal.title}</Text>
-          <Text>{deal.price}</Text>
+          <Text>{priceDisplay(deal.price)}</Text>
           <Text>{deal.cause.name}</Text>
         </View>
       </View>
