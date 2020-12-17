@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 
 import { priceDisplay } from "../util";
@@ -8,6 +8,7 @@ import ajax from "../ajax";
 class DealItem extends React.Component {
   static propTypes = {
     initialDealData: PropTypes.object.isRequired,
+    onBackPressed: PropTypes.func.isRequired,
   };
 
   state = {
@@ -20,32 +21,41 @@ class DealItem extends React.Component {
     console.log(fullDeal);
   }
 
+  backPressed = () => {
+    this.props.onBackPressed();
+  }
+
   render() {
     const { deal } = this.state;
 
     return (
-      <View style={styles.deal}>
-        <Image source={{ uri: deal.media[0] }} style={styles.image} />
-        <Text style={styles.title}>{deal.title}</Text>
-        <View style={styles.info}>
-          <View style={styles.footer}>
-            <View style={styles.metadata}>
-              <Text style={styles.price}>{priceDisplay(deal.price)}</Text>
-              <Text style={styles.cause}>{deal.cause.name}</Text>
-            </View>
-            {deal.user && (
-              <View style={styles.author}>
-                <Image
-                  source={{ uri: deal.user.avatar }}
-                  style={styles.avatar}
-                />
-                <Text style={styles.authorName}>{deal.user.name}</Text>
+      <View style={styles.dealDetail}>
+        <TouchableOpacity style={styles.deal} onPress={this.backPressed}>
+          <Text style={styles.backLink}>Back</Text>
+        </TouchableOpacity>
+        <View style={styles.deal}>
+          <Image source={{ uri: deal.media[0] }} style={styles.image} />
+          <Text style={styles.title}>{deal.title}</Text>
+          <View style={styles.info}>
+            <View style={styles.footer}>
+              <View style={styles.metadata}>
+                <Text style={styles.price}>{priceDisplay(deal.price)}</Text>
+                <Text style={styles.cause}>{deal.cause.name}</Text>
               </View>
-            )}
-          </View>
+              {deal.user && (
+                <View style={styles.author}>
+                  <Image
+                    source={{ uri: deal.user.avatar }}
+                    style={styles.avatar}
+                  />
+                  <Text style={styles.authorName}>{deal.user.name}</Text>
+                </View>
+              )}
+            </View>
 
-          <View style={styles.description}>
-            <Text>{deal.description}</Text>
+            <View style={styles.description}>
+              <Text>{deal.description}</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -59,6 +69,15 @@ const styles = StyleSheet.create({
   deal: {
     marginHorizontal: 12,
     marginTop: 12,
+  },
+
+  dealDetail: {
+    marginHorizontal: 12,
+    marginTop: 50,
+  },
+
+  backLink: {
+    color: 'darkblue'
   },
 
   image: {

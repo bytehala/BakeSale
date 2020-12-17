@@ -20,6 +20,10 @@ class App extends React.Component {
     this.setState({ currentDealId: dealId });
   };
 
+  unsetCurrentDeal = () => {
+    this.setState({currentDealId: null});
+  };
+
   currentDeal = () => {
     return this.state.deals.find(
       (deal) => deal.key === this.state.currentDealId
@@ -28,12 +32,11 @@ class App extends React.Component {
 
   render() {
     if (this.state.currentDealId) {
-      return <DealDetail initialDealData={this.currentDeal()} />;
+      return <DealDetail initialDealData={this.currentDeal()} onBackPressed={this.unsetCurrentDeal}/>;
     }
     if (this.state.deals.length > 0) {
-      return (
-        <DealList deals={this.state.deals} onItemPress={this.setCurrentDeal} />
-      );
+      return <DealList deals={this.state.deals} onItemPress={this.setCurrentDeal} />
+      
     }
     return <Text style={styles.header}>BakeSale TM</Text>;
   }
@@ -47,6 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    marginTop: 50,
   },
 
   header: {
