@@ -26,22 +26,27 @@ class DealItem extends React.Component {
     return (
       <View style={styles.deal}>
         <Image source={{ uri: deal.media[0] }} style={styles.image} />
+        <Text style={styles.title}>{deal.title}</Text>
         <View style={styles.info}>
-          <Text style={styles.title}>{deal.title}</Text>
           <View style={styles.footer}>
-            <Text style={styles.cause}>{deal.cause.name}</Text>
-            <Text style={styles.price}>{priceDisplay(deal.price)}</Text>
+            <View style={styles.metadata}>
+              <Text style={styles.price}>{priceDisplay(deal.price)}</Text>
+              <Text style={styles.cause}>{deal.cause.name}</Text>
+            </View>
+            {deal.user && (
+              <View style={styles.author}>
+                <Image
+                  source={{ uri: deal.user.avatar }}
+                  style={styles.avatar}
+                />
+                <Text style={styles.authorName}>{deal.user.name}</Text>
+              </View>
+            )}
           </View>
-        </View>
 
-        {deal.user && (
-          <View>
-            <Image source={{ uri: deal.user.avatar }} style={styles.avatar} />
-            <Text>{deal.user.name}</Text>
+          <View style={styles.description}>
+            <Text>{deal.description}</Text>
           </View>
-        )}
-        <View>
-          <Text>{deal.description}</Text>
         </View>
       </View>
     );
@@ -64,6 +69,8 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: 16,
+    backgroundColor: "rgba(237, 149, 45, 0.4)",
+    padding: 10,
   },
 
   info: {
@@ -74,23 +81,45 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
 
+  description: {
+    padding: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    backgroundColor: "#eee",
+  },
+
   footer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  metadata: {
+    flex: 1,
+  },
+
+  author: {
+    flex: 1,
   },
 
   cause: {
-    flex: 2,
+    textAlign: "center",
   },
 
   price: {
-    flex: 1,
-    textAlign: "right",
+    textAlign: "center",
+    fontWeight: "bold",
   },
 
   avatar: {
     width: 60,
     height: 60,
+    alignSelf: "center",
+    borderRadius: 30,
+  },
+
+  authorName: {
+    textAlign: "center",
   },
 });
