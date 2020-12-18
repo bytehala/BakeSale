@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View, Animated, Easing, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  Easing,
+  Dimensions,
+} from "react-native";
 import ajax from "./src/ajax";
 import DealList from "./src/components/DealList";
 import DealDetail from "./src/components/DealDetail";
@@ -17,20 +24,23 @@ class App extends React.Component {
   };
 
   animateTitle = (direction = 1) => {
-    const width = Dimensions.get('window').width - 220;
+    const width = Dimensions.get("window").width - 220;
     Animated.timing(this.titleXPos, {
-      toValue: (width / 2 ) * direction,
+      toValue: (width / 2) * direction,
       duration: 1000,
       easing: Easing.ease,
-    }).start(() => {
-      this.animateTitle(-1 * direction);
+    }).start(({ finished }) => {
+      if (finished) {
+        // finished means animation finished successfully and was not interrupted
+        this.animateTitle(-1 * direction);
+      }
     });
   };
 
   async componentDidMount() {
     this.animateTitle();
     const deals = await ajax.fetchInitialDeals();
-    // this.setState({ deals });
+    this.setState({ deals });
   }
 
   searchDeals = async (searchTerm) => {
