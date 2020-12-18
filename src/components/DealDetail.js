@@ -1,11 +1,29 @@
 import React from "react";
-import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  PanResponder,
+  Animated,
+} from "react-native";
 import PropTypes from "prop-types";
 
 import { priceDisplay } from "../util";
 import ajax from "../ajax";
 
 class DealItem extends React.Component {
+  imagePanResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+    onPanResponderMove: (evt, gs) => {
+      console.log('moving', gs.dx);
+    },
+    onPanResponderRelease: (evt, gs) => {
+      console.log('released');
+    }
+  });
+
   static propTypes = {
     initialDealData: PropTypes.object.isRequired,
     onBackPressed: PropTypes.func.isRequired,
@@ -13,6 +31,7 @@ class DealItem extends React.Component {
 
   state = {
     deal: this.props.initialDealData,
+    imageIndex: 0,
   };
 
   async componentDidMount() {
@@ -23,7 +42,7 @@ class DealItem extends React.Component {
 
   backPressed = () => {
     this.props.onBackPressed();
-  }
+  };
 
   render() {
     const { deal } = this.state;
@@ -34,7 +53,11 @@ class DealItem extends React.Component {
           <Text style={styles.backLink}>Back</Text>
         </TouchableOpacity>
         <View style={styles.deal}>
-          <Image source={{ uri: deal.media[0] }} style={styles.image} />
+          <Image
+            {...this.imagePanResponder.panHandlers}
+            source={{ uri: deal.media[this.state.imageIndex] }}
+            style={styles.image}
+          />
           <Text style={styles.title}>{deal.title}</Text>
           <View style={styles.info}>
             <View style={styles.footer}>
@@ -77,7 +100,7 @@ const styles = StyleSheet.create({
   },
 
   backLink: {
-    color: 'darkblue'
+    color: "darkblue",
   },
 
   image: {
