@@ -34,5 +34,6 @@ export default class SearchBar extends Component {
 const styles = StyleSheet.create({
   input: {
     height: 40,
+    paddingHorizontal: 12,
   },
 });

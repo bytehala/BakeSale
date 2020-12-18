@@ -54,7 +54,7 @@ class App extends React.Component {
     if (this.state.deals.length > 0) {
       return (
         <View style={styles.container}>
-          <SearchBar searchDeals={this.searchDeals} />
+          <SearchBar searchDeals={this.searchDeals}/>
           <DealList
             deals={this.state.dealsFromSearch.length > 0 ? this.state.dealsFromSearch : this.state.deals}
             onItemPress={this.setCurrentDeal}
@@ -70,10 +70,7 @@ export default App;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
     marginTop: 50,
   },
 
