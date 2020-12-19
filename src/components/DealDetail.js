@@ -2,6 +2,7 @@ import React from "react";
 import {
   Text,
   View,
+  ScrollView,
   Image,
   StyleSheet,
   TouchableOpacity,
@@ -93,7 +94,7 @@ class DealDetail extends React.Component {
         <TouchableOpacity style={styles.deal} onPress={this.backPressed}>
           <Text style={styles.backLink}>Back</Text>
         </TouchableOpacity>
-        <View style={styles.deal}>
+        <ScrollView style={styles.deal}>
           <Animated.Image
             {...this.imagePanResponder.panHandlers}
             source={{ uri: deal.media[this.state.imageIndex] }}
@@ -123,7 +124,7 @@ class DealDetail extends React.Component {
 
             <Button title="Buy this deal!" onPress={this.openDealUrl} />
           </View>
-        </View>
+        </ScrollView>
       </View>
     );
   }
@@ -140,6 +141,7 @@ const styles = StyleSheet.create({
   dealDetail: {
     marginHorizontal: 12,
     marginTop: 50,
+    paddingBottom: 80,
   },
 
   backLink: {

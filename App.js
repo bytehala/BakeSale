@@ -78,7 +78,7 @@ class App extends React.Component {
     if (this.state.deals.length > 0) {
       return (
         <View style={styles.container}>
-          <SearchBar searchDeals={this.searchDeals} />
+          <SearchBar searchDeals={this.searchDeals} searchTerm={this.state.searchTerm}/>
           <DealList
             deals={
               this.state.dealsFromSearch.length > 0
