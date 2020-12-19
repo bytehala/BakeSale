@@ -8,6 +8,8 @@ import {
   PanResponder,
   Animated,
   Dimensions,
+  Button,
+  Linking,
 } from "react-native";
 import PropTypes from "prop-types";
 
@@ -79,6 +81,10 @@ class DealDetail extends React.Component {
     this.props.onBackPressed();
   };
 
+  openDealUrl = () => {
+    Linking.openURL(this.state.deal.url);
+  };
+
   render() {
     const { deal } = this.state;
 
@@ -114,6 +120,8 @@ class DealDetail extends React.Component {
             <View style={styles.description}>
               <Text>{deal.description}</Text>
             </View>
+
+            <Button title="Buy this deal!" onPress={this.openDealUrl} />
           </View>
         </View>
       </View>
